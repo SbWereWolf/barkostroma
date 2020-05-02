@@ -1,0 +1,34 @@
+<wpml-config>
+  <custom-types>
+    <custom-type translate="1">themo_room</custom-type>
+  </custom-types>
+  <taxonomies>
+    <taxonomy translate="1">themo_room_type</taxonomy>
+  </taxonomies>
+  <custom-fields>
+    <custom-field action="translate">th_room_highlight</custom-field>
+    <custom-field action="translate">th_room_title</custom-field>
+    <custom-field action="translate">th_room_intro</custom-field>
+    <custom-field action="translate">th_room_button_text</custom-field>
+    <custom-field action="copy-once">th_room_thumb</custom-field>
+    <custom-field action="copy-once">themo_transparent_header</custom-field>
+    <custom-field action="copy-once">themo_hide_title</custom-field>
+    <custom-field action="copy-once">themo_page_layout</custom-field>
+    <custom-field action="copy-once">_elementor_page_settings</custom-field>
+    <custom-field action="copy-once">themo_header_content_style</custom-field>
+    <custom-field action="copy-once">themo_alt_logo</custom-field>
+  </custom-fields>
+
+  <wpml-config>
+    <admin-texts>
+      <key name="theme_mods_bellevuex">
+        <key name="themo_top_nav_text">
+        </key>
+      </key>
+      <key name="theme_mods_bellevuex-child">
+          <key name="themo_top_nav_text">
+        </key>
+      </key>
+    </admin-texts>
+  </wpml-config>
+</wpml-config>

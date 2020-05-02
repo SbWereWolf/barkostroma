@@ -1,1 +1,32 @@
 /.idea/**
+
+# ignore everything in the root except the "wp-content" directory.
+/*
+!.gitignore
+!wp-content/
+
+# ignore everything in the "wp-content" directory, except:
+# "mu-plugins", "plugins", "themes" directory
+wp-content/*
+!wp-content/mu-plugins/
+!wp-content/themes/
+!wp-content/plugins/
+wp-content/plugins/*
+!wp-content/plugins/motopress-hotel-booking/
+
+
+# ignore these plugins
+wp-content/plugins/hello.php
+
+# ignore specific themes
+wp-content/themes/twenty*/
+
+# ignore node dependency directories
+node_modules/
+
+# ignore log files and databases
+*.log
+*.sql
+*.sqlite
+/wp-content/plugins/motopress-hotel-booking/vendors/
+/wp-content/plugins/motopress-hotel-booking/languages/
