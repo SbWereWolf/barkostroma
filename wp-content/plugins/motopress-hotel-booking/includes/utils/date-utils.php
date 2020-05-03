@@ -69,6 +69,8 @@ class DateUtils {
 	 * @note requires PHP 5 >= 5.3
 	 * @param \DateTime $checkInDate
 	 * @param \DateTime $checkOutDate
+     *
+     * Считает дни
 	 * @return int
 	 */
 	public static function calcNights( \DateTime $checkInDate, \DateTime $checkOutDate ){
@@ -81,7 +83,7 @@ class DateUtils {
 
 		$diff = $from->diff( $to );
 
-		return (int) $diff->format( '%r%a' );
+		return 1+(int) $diff->format( '%r%a' );
 	}
 
 	/**

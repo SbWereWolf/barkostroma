@@ -80,7 +80,7 @@ class ReservationRules implements RuleVerifiable {
 			'room_type_ids'  => array( 0 ),
 		) );
 		array_push( $rules[ self::RULE_MIN_STAY ], array(
-			'min_stay_length' => 1,/* := 0 */
+			'min_stay_length' => 0,
 			'season_ids'      => array( 0 ),
 			'room_type_ids'   => array( 0 ),
 		) );

@@ -208,7 +208,14 @@ class ReservedRoom {
 	 * @return string
 	 */
 	public function getGuestName(){
-		return $this->guestName;
+
+	    $result = $this->guestName;
+	    $isArray = is_array($result);
+	    if($isArray){
+            $result = implode('; ',$result);
+        }
+
+		return $result;
 	}
 
 	/**

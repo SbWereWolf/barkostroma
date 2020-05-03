@@ -211,10 +211,12 @@ class CheckoutView {
         <?php } ?>
 
         <p class="mphb-guest-name-wrapper">
+        <?php for ($index = 0 ; $index < $maxAdults; $index++): ?>
             <label for="<?php echo esc_attr($idPrefix . '-guest-name'); ?>">
                 <?php _e('Full Guest Name', 'motopress-hotel-booking'); ?>
             </label>
-            <input type="text" name="<?php echo esc_attr($namePrefix . '[guest_name]'); ?>" id="<?php echo esc_attr($idPrefix . '-guest-name'); ?>" />
+            <input type="text" name="<?php echo esc_attr($namePrefix . '[guest_name]'."[$index]"); ?>" id="<?php echo esc_attr($idPrefix . '-guest-name'."-$index"); ?>" />
+        <?php endfor; ?>
         </p>
         <?php
     }

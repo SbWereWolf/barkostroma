@@ -239,8 +239,8 @@ class Rate {
 	}
 
 	/**
-	 * @param string $checkInDate date in format 'Y-m-d'
-	 * @param string $checkOutDate date in format 'Y-m-d'
+	 * @param \DateTime $checkInDate
+	 * @param \DateTime $checkOutDate
 	 * @return array Array where keys are dates and values are prices
      *
      * @since 3.5.0 removed optional parameter $occupancyParams.
@@ -251,12 +251,19 @@ class Rate {
 
 		$datePrices = $this->getDatePrices();
 
-		foreach ( \MPHB\Utils\DateUtils::createDatePeriod( $checkInDate, $checkOutDate ) as $date ) {
-			$dateDB = \MPHB\Utils\DateUtils::formatDateDB( $date );
-			if ( array_key_exists( $dateDB, $datePrices ) ) {
-				$prices[$dateDB] = $datePrices[$dateDB];
-			}
-		}
+		$finalDate = \MPHB\Utils\DateUtils::formatDateDB( $checkOutDate );
+        if(array_key_exists( $finalDate, $datePrices )){
+            $prices[$finalDate] = $datePrices[$finalDate];
+        }
+
+        foreach (
+            \MPHB\Utils\DateUtils::createDatePeriod(
+                $checkInDate, $checkOutDate ) as $date ) {
+            $dateDB = \MPHB\Utils\DateUtils::formatDateDB( $date );
+            if ( array_key_exists( $dateDB, $datePrices ) ) {
+                $prices[$dateDB] = $datePrices[$dateDB];
+            }
+        }
 
 		return $prices;
 	}
