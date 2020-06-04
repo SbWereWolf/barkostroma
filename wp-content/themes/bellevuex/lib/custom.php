@@ -2430,7 +2430,7 @@ function th_register_required_plugins() {
         array_push($plugins, array(
             'name' => 'Hotel Booking',
             'slug' => 'motopress-hotel-booking',
-            'source' => 'http://out.themovation.com/motopress-hotel-booking',
+            'source' => 'https://out.themovation.com/motopress-hotel-booking',
             'required' => false,
         ));
     }
@@ -2440,7 +2440,7 @@ function th_register_required_plugins() {
         array_push($plugins, array(
             'name' => 'Hotel Booking WooCommerce Payments',
             'slug' => 'mphb-woocommerce',
-            'source' => 'http://out.themovation.com/mphb-woocommerce',
+            'source' => 'https://out.themovation.com/mphb-woocommerce',
             'required' => false,
         ));
     }
@@ -2459,7 +2459,7 @@ function th_register_required_plugins() {
         array_push($plugins, array(
             'name'      => 'Slider Revolution', // The plugin name.
             'slug'      => 'revslider', // The plugin slug (typically the folder name).
-            'source'    => 'http://out.themovation.com/revslider', //get_template_directory() . '/plugins/th-widget-pack.zip', // The plugin source.
+            'source'    => 'https://out.themovation.com/revslider', //get_template_directory() . '/plugins/th-widget-pack.zip', // The plugin source.
             'required' => false,
         ));
     }
@@ -2469,7 +2469,7 @@ function th_register_required_plugins() {
         array_push($plugins, array(
             'name'      => 'Groovy Menu', // The plugin name.
             'slug'      => 'groovy-menu', // The plugin slug (typically the folder name).
-            'source'    => 'http://out.themovation.com/groovy-menu', //get_template_directory() . '/plugins/th-widget-pack.zip', // The plugin source.
+            'source'    => 'https://out.themovation.com/groovy-menu', //get_template_directory() . '/plugins/th-widget-pack.zip', // The plugin source.
             'required' => false,
         ));
     }
@@ -2479,7 +2479,7 @@ function th_register_required_plugins() {
         array_push($plugins, array(
             'name'      => 'Master Slider Pro', // The plugin name.
             'slug'      => 'masterslider', // The plugin slug (typically the folder name).
-            'source'    => 'http://out.themovation.com/masterslider', //get_template_directory() . '/plugins/th-widget-pack.zip', // The plugin source.
+            'source'    => 'https://out.themovation.com/masterslider', //get_template_directory() . '/plugins/th-widget-pack.zip', // The plugin source.
             'required' => false,
         ));
     }
@@ -2645,47 +2645,3 @@ function th_register_required_plugins() {
  */
 
 // This is a single line quote.
-
-
-if (function_exists('wpbs_shortcode')) {
-    add_shortcode('wpbs', 'file_wpbs_shortcode');
-}
-
-function file_wpbs_shortcode( $atts )
-{
-
-    // Make sure WooCommerce is Active.
-    if ( class_exists( 'woocommerce' ) &&  ! is_admin()) {
-        // Check if product id is present. If so, include link.
-        global $woocommerce;
-        $cart_url = wc_get_cart_url();
-
-        if((isset($atts['wooproductsku']) && $atts['wooproductsku'] > "") || (isset($atts['wooproductid']) && $atts['wooproductid'] > "") && $cart_url > ""){
-
-            $wooProductSKU = false;
-            if((isset($atts['wooproductsku']) && $atts['wooproductsku'] > "")) {
-                $wooProductSKU = $atts['wooproductsku']; // Variable Products
-            }
-
-            $wooProductID = false;
-            if((isset($atts['wooproductid']) && $atts['wooproductid'] > "")){
-                $wooProductID = $atts['wooproductid']; // Standard Products
-            }
-
-            $wpbs_ID = $atts['id'];
-
-            echo "<div class='wpbs-woo-payment-request wpbs-woo-pay-req-ID-$wpbs_ID' style='display:none' >";
-            echo "<div class='wpbs-woo-payment-request-mgs wpbs-ID-$wpbs_ID'>";
-            if(isset($wooProductSKU) && $wooProductSKU > ""){
-                echo do_shortcode('[add_to_cart style="padding:10px 0;" sku='.$wooProductSKU.']');
-            }elseif(isset($wooProductID) && $wooProductID > ""){
-                echo do_shortcode('[add_to_cart style="padding:10px 0;" id='.$wooProductID.']');
-            }
-            echo '</div>';
-            echo '</div>';
-        }
-    }
-
-    return wpbs_shortcode( $atts );
-
-}

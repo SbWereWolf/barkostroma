@@ -181,23 +181,6 @@ jQuery(document).ready(function($) {
 
 
 
-
-
-
-
-        // Add class for WPBS to fix anchor overshoot
-    jQuery(".wpbs-form-and-legend").each(function(){
-        // or you can also add a class
-        jQuery(this).find('a[name=wpbs-form-start]').addClass("wpbs-form-start");
-    });
-
-	// Get and set the default colour for WPBS.
-
-    var wpbs_color =  jQuery('.th-book-cal-small .wpbs-calendar-1 .status-default').css("background-color");
-
-
-    jQuery('.th-book-cal-small div.wpbs-calendar ul li.status-2, .th-book-cal-small div.wpbs-calendar ul li.status-3 ').css('background-color', wpbs_color);
-
     // Preloader : Is really only used for the flexslider but is added to the body tag.
     // If flex is detected, we put a timeout on it (5s( so it does not get stuck spinning.
     // If no flex, then disable.
@@ -338,7 +321,7 @@ jQuery(document).ready(function($) {
 
 
 	if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
-		console.log('Smooth Scroll Off (Safari).');
+		//console.log('Smooth Scroll Off (Safari).');
 	}else{
 		try 
 		{
@@ -357,19 +340,9 @@ jQuery(document).ready(function($) {
 				});
 		} 
 		catch (err) {
-			console.log('Smooth Scroll Off.');
+			//console.log('Smooth Scroll Off.');
 		}
 	}
-
-});
-
-// WP Booking system show
-jQuery( ".wpbs-container" ).show('fast','swing');
-
-// WP Booking system Error message.
-jQuery( document ).ajaxComplete(function() {
-    var $error_msg_div = jQuery(".wpbs-form-item").filter(function() { return !(jQuery(this).find('*').is(':input')); })
-    jQuery($error_msg_div.addClass('wpbs-form-error-msg'));
 
 });
 
@@ -414,140 +387,3 @@ jQuery( document ).ajaxComplete(function() {
 });
 
 
-/*
- * Hook ajaxcomplete for WP Booking System.
- * Hijack success message and tag along our buy button.
- *
- * */
-jQuery( document ).ajaxComplete(function( event, xhr, settings ) {
-
-    // Check if success message is active / exists, if not exit.
-    if (jQuery('.wpbs-woo-payment-request-mgs').length){
-        //console.log(settings.data);
-        //console.log(xhr.responseText);
-
-        //if( xhr.responseText.toString.call(settings.data) == '[object String]' ) {
-        if (xhr.responseText.indexOf("wpbs_clear_selection") >= 0) {
-
-            // pull date from, date to value from query string.
-            var getQueryString = function ( field, url ) {
-                var href = url ? url : window.location.href;
-                var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
-                var string = reg.exec(href);
-                return string ? string[1] : null;
-            };
-
-            var date_now = getQueryString('wpbs-form-start-date',settings.data); // returns 'start date'
-            var date_future = getQueryString('wpbs-form-end-date',settings.data); // returns 'end date'
-
-            // If date_future is less than the date now, swap them because the user has selected cal dates in reverse :(
-            if(date_future < date_now){
-                var date_future = getQueryString('wpbs-form-start-date',settings.data); // returns 'start date'
-                var date_now = getQueryString('wpbs-form-end-date',settings.data); // returns 'end date'
-            }
-
-            var wpbs_id = getQueryString('wpbs-form-calendar-ID',settings.data); // returns 'cal id'
-
-            // make new date objects.
-            date_now = new Date(date_now*1000);
-            date_future = new Date(date_future*1000);
-
-
-            var monthNames = [
-                'January', 'February', 'March',
-                'April', 'May', 'June', 'July',
-                'August', 'September', 'October',
-                'November', 'December'
-            ];
-
-
-            var day = date_now.getDate();
-            var monthIndex = date_now.getMonth();
-            var year = date_now.getFullYear();
-
-            var checkin = monthNames[monthIndex] +' '+ day +', '+ year;
-
-            var day = date_future.getDate();
-            var monthIndex = date_future.getMonth();
-            var year = date_future.getFullYear();
-
-            var checkout = monthNames[monthIndex] +' '+ day +', '+ year;
-
-            // days inbetween.
-            var seconds = Math.floor((date_future - (date_now))/1000);
-            var minutes = Math.floor(seconds/60);
-            var hours = Math.floor(minutes/60);
-            var days = Math.floor(hours/24);
-
-            if (days > 0) {
-                var daystobook = days;
-            }else{
-                var daystobook = 1;
-            }
-            // Find a way to stuff the quantity into the button.
-
-            //console.log(daystobook);
-            //console.log(wpbs_id);
-
-            var bookingCount = 0;
-
-            jQuery(".wpbs-calendar-"+wpbs_id+" .wpbs-form-form").each(function() {
-
-                if ( jQuery( ".wpbs-ID-"+wpbs_id+" .button.ajax_add_to_cart" ).length ) {
-
-                    // Update the quantity
-                    jQuery(".wpbs-ID-"+wpbs_id+" .button.ajax_add_to_cart:eq("+bookingCount+")").attr("href", UpdateQueryString("quantity", daystobook, jQuery(".wpbs-ID-"+wpbs_id+" .button.ajax_add_to_cart:eq("+bookingCount+")").attr("href")));
-
-                    // Up the quantity
-                    jQuery(".wpbs-ID-"+wpbs_id+" .button.ajax_add_to_cart:eq("+bookingCount+")").attr( "data-quantity", daystobook );
-
-                    // Check-in
-                    jQuery(".wpbs-ID-"+wpbs_id+" .button.ajax_add_to_cart:eq("+bookingCount+")").attr( 'data-checkin', checkin);
-
-                    // Check-out
-                    jQuery(".wpbs-ID-"+wpbs_id+" .button.ajax_add_to_cart:eq("+bookingCount+")").attr( 'data-checkout', checkout);
-
-                }else{
-
-                    // Update the quantity
-                    jQuery(".wpbs-ID-"+wpbs_id+" .add_to_cart_button:eq("+bookingCount+")").attr("href", UpdateQueryString("quantity", daystobook, jQuery(".wpbs-ID-"+wpbs_id+" .add_to_cart_button:eq("+bookingCount+")").attr("href")));
-
-                    // Up the quantity
-                    jQuery(".wpbs-ID-"+wpbs_id+" .add_to_cart_button:eq("+bookingCount+")").attr( "data-quantity", daystobook );
-
-                    // Check-in
-                    jQuery(".wpbs-ID-"+wpbs_id+" .add_to_cart_button:eq("+bookingCount+")").attr( 'data-checkin', checkin);
-
-                    // Check-out
-                    jQuery(".wpbs-ID-"+wpbs_id+" .add_to_cart_button:eq("+bookingCount+")").attr( 'data-checkout', checkout);
-
-                }
-
-                // show button
-                jQuery(this).append(jQuery(".wpbs-woo-payment-request.wpbs-woo-pay-req-ID-"+wpbs_id+":eq("+bookingCount+")").html());
-
-
-                bookingCount=bookingCount+1;
-
-
-            });
-
-        }
-        // }
-
-		/*
-		 // Check if setting.data is a string.
-		 if( Object.prototype.toString.call(settings.data) == '[object String]' ) {
-		 // check if settings.data contains wpbs form id key.
-		 if (settings.data.indexOf("wpbs-form-id") >= 0) {
-		 // If the rsponse does not contain the wpbs-form-id attribute
-		 // print out success message.
-		 if (xhr.responseText.indexOf("wpbs_clear_selection") >= 0) {
-		 jQuery(".wpbs-form-form").append(jQuery(".wpbs-woo-payment-request").html());
-		 }
-
-		 }
-		 }*/
-    }
-
-});

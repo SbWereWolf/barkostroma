@@ -453,12 +453,6 @@ Bellevue_Kirki::add_field( 'bellevue_theme', array(
             'property' => 'border-color',
             'suffix' => '!important',
         ),
-        array(
-            'element'  => '.wpbs-form .wpbs-form-form .wpbs-form-submit, .wpbs-form .wpbs-form-form .wpbs-form-submit:hover, .wpbs-form .wpbs-form-form .wpbs-form-submit:active, .wpbs-form .wpbs-form-form .wpbs-form-submit:focus',
-            'property' => 'background-color',
-            'suffix' => '!important',
-        ),
-
     ),
 ) );
 
@@ -1705,14 +1699,6 @@ Bellevue_Kirki::add_field( 'bellevue_theme', array(
             'units'    => 'px',
             'value_pattern' => '5',
             'exclude' => array('round'),
-        ),
-        array(
-            'element'  => '.wpbs-form-form .wpbs-form-item input, .wpbs-form-form .wpbs-form-item select, .wpbs-form-form .wpbs-form-item textarea, .wpbs-form-form .wpbs-form-item .wpbs-form-submit',
-            'property' => 'border-radius',
-            'units'    => 'px',
-            'value_pattern' => '5',
-            'exclude' => array('round'),
-            'suffix' => '!important',
         ),
     ),
 ) );

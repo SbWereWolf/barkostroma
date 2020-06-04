@@ -65,11 +65,16 @@ if(isset($has_sidebar) && $has_sidebar){
 	if($has_sidebar){
 		$image_size = 'th_img_lg';
 	}
-	$automatic_post_excerpts = true;
+
 	if ( function_exists( 'get_theme_mod' ) ) {
 		$automatic_post_excerpts = get_theme_mod( 'themo_automatic_post_excerpts', true );
 	}
-		
+	if(isset($automatic_post_excerpts) && $automatic_post_excerpts){
+        $automatic_post_excerpts = 'on';
+    }else{
+        $automatic_post_excerpts = 'off';
+    }
+
 	?>
 
     <section id="<?php echo sanitize_html_class($key).'_content'; ?>" class="<?php echo sanitize_text_field($masonry_section_class); ?>">

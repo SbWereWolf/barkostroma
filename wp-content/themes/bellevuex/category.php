@@ -69,11 +69,13 @@ if((isset($has_sidebar) && $has_sidebar) || (isset($themo_blog_masonry_style) &&
         }
     }
 
-
-
-    $automatic_post_excerpts = true;
     if ( function_exists( 'get_theme_mod' ) ) {
         $automatic_post_excerpts = get_theme_mod( 'themo_automatic_post_excerpts', true );
+    }
+    if(isset($automatic_post_excerpts) && $automatic_post_excerpts){
+        $automatic_post_excerpts = 'on';
+    }else{
+        $automatic_post_excerpts = 'off';
     }
 
     ?>

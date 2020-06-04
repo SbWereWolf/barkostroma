@@ -59,12 +59,16 @@ if(is_front_page()) {
 	}else{
 		$masonry_div_class = 'mas-blog-post col-lg-4 col-md-4 col-sm-6';
 	}
-	
-	$automatic_post_excerpts = true;
+
 	if ( function_exists( 'get_theme_mod' ) ) {
 		$automatic_post_excerpts = get_theme_mod( 'themo_automatic_post_excerpts', true );
 	}
-	
+    if(isset($automatic_post_excerpts) && $automatic_post_excerpts){
+        $automatic_post_excerpts = 'on';
+    }else{
+        $automatic_post_excerpts = 'off';
+    }
+
 	?>
 
     <section id="th-masonry" class="<?php echo sanitize_text_field($masonry_section_class); ?>">

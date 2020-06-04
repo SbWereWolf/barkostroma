@@ -7682,74 +7682,12 @@ span.th-payment-no-img {
     transform: scale(1.05);
 }
 
-
-/* ==========================================================================
-   WP Booking System
-   ========================================================================== */
-
-.wpbs-container{display: none }
-
-.wpbs-woo-payment-request-mgs .amount {
-    display: none;
-}
-
-.wpbs-woo-payment-request-mgs a.added_to_cart.wc-forward{
-    padding-left: 10px;
-}
-
 .woocommerce #respond input#submit, .woocommerce a.button, .woocommerce button.button, .woocommerce input.button {
     font-weight: normal;
 }
 
-
-/* WPBS Widget Styling */
-
 .th-book-cal-small {max-width:380px}
 
-.th-book-cal-small .wpbs-container {width:100%}
-
-.th-book-cal-small div.wpbs-calendar {
-    width:100%;
-    height:auto;
-    min-height:355px;
-}
-
-.th-book-cal-small div.wpbs-calendar ul li,
-.th-book-cal-small li.wpbs-bookable:hover,
-.th-book-cal-small li.wpbs-bookable-clicked,
-.th-book-cal-small li.wpbs-bookable-clicked:hover,
-.th-book-cal-small li.wpbs-bookable-hover,
-.th-book-cal-small li.wpbs-bookable-hover:hover,
-.th-book-cal-small div.wpbs-calendar ul li.wpbs-bookable-clicked,
-.th-book-cal-small div.wpbs-calendar ul li.wpbs-bookable-hover{
-    width:14.2857142857% !important;
-    height:40px !important;
-}
-
-.th-book-cal-small .wpbs-form-form .wpbs-form-item,
-.th-book-cal-small .wpbs-form-form input:not([type='checkbox']):not([type='radio']),
-.th-book-cal-small .wpbs-form-form select {width:100% !important; max-width:100% !important}
-
-.th-book-cal-small div.wpbs-calendar ul li .wpbs-day-split-top,
-.th-book-cal-small .wpbs-select-status .wpbs-day-split-top {
-    border-width: 40px 40px 0 0;
-}
-
-.th-book-cal-small div.wpbs-calendar ul li .wpbs-day-split-bottom,
-.th-book-cal-small .wpbs-select-status .wpbs-day-split-bottom {
-    border-width: 0 0 40px 40px;
-}
-
-.th-book-cal-small div.wpbs-calendar ul li.status-2,
-.th-book-cal-small div.wpbs-calendar ul li.status-3 {background-color:#DDFFCC}
-
-
-/* Slider Widget WPBS Calendar Styling */
-
-.elementor-widget-themo-slider .th-centered .wpbs-container .wpbs-form-item label,
-.elementor-widget-themo-slider .th-right .wpbs-container .wpbs-form-item label {
-    text-align:left;
-}
 
 /********************************
 MOTOPRESS HOTEL BOOKING PLUGIN

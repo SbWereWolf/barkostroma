@@ -40,10 +40,6 @@ function roots_scripts() {
 	wp_register_style('roots_app',  get_template_directory_uri() . '/assets/css/app.css', array(), '1.1');
 	wp_enqueue_style('roots_app');
 
-    /********************************
-    Styling for WP Booking System
-     ********************************/
-    wp_enqueue_style('bellevue-wpbs', get_template_directory_uri() . '/assets/css/bellevue_wpbs.css', array('wpbs-calendar'), '1');
 
     /********************************
     Styling for MPHB/WP Booking System

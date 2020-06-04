@@ -10,6 +10,7 @@
 wp-content/*
 !wp-content/mu-plugins/
 !wp-content/themes/
+/wp-content/themes/luviana/
 !wp-content/plugins/
 wp-content/plugins/*
 !wp-content/plugins/motopress-hotel-booking/
