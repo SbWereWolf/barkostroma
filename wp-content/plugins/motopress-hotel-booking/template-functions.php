@@ -12,6 +12,9 @@ function mphb_tmpl_the_room_type_default_price( $id = null ){
 	$roomType = $id ? MPHB()->getRoomTypeRepository()->findById( $id ) : MPHB()->getCurrentRoomType();
 
 	$nights = MPHB()->getRulesChecker()->reservationRules()->getMinDaysAllSeason( $roomType->getOriginalId() );
+	if(empty($nights)){
+        $nights = 1;
+    }
 	$price	 = $roomType->getDefaultPrice();
 
 	$defaultPriceForNights = $price * $nights;
