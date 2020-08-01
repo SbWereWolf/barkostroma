@@ -1186,3 +1186,14 @@ function mphb_is_base_request($postType = null)
 
     return $isBase;
 }
+
+function sortServicesByGroup(
+    MPHB\Entities\Service $a, MPHB\Entities\Service $b)
+{
+    $one = $a->getSortOrder();
+    $other = $b->getSortOrder();
+    $result = $one > $other ? -1 : 1;
+    $result = $one === $other ? 0 : $result;
+
+    return $result;
+}

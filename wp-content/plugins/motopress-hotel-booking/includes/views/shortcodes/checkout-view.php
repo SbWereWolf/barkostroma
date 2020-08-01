@@ -304,10 +304,20 @@ class CheckoutView {
 			'post__in' => $roomType->getServices()
 		);
 
+		/* @var array $services */
 		$services = MPHB()->getServiceRepository()->findAll( $servicesAtts );
 
         if ( empty( $services ) ) {
             return; // MB-858 - don't show "Choose Additional Services" when there are no available services
+        }
+        usort($services, 'sortServicesByGroup');
+        $groups = [];
+        foreach ($services as $service) {
+            /* @var \MPHB\Entities\Service $service */
+            $isExists = key_exists($service->getSortOrder(),$groups);
+            if(!$isExists){
+                $groups[$service->getSortOrder()] = $service->getGroupTitle();
+            }
         }
 
 		?>
@@ -317,9 +327,30 @@ class CheckoutView {
 			</h4>
 			<ul class="mphb_sc_checkout-services-list mphb_checkout-services-list">
 
-				<?php foreach ( $services as $index => $service ) { ?>
-					<?php
-					$namePrefix = 'mphb_room_details[' . esc_attr( $roomIndex ) . '][services][' . esc_attr( $index ) . ']';
+                <?php
+                $previousGroup = PHP_INT_MIN;
+                $letInit = true;
+                ?>
+                <?php foreach ($services as $index => $service) { ?>
+                    <?php
+                    /* @var \MPHB\Entities\Service $service */
+                    $sort = $service->getSortOrder();
+                    $letStartGroup = $previousGroup !== $sort;
+                    $previousGroup = $sort;
+                    if(!$letInit && $letStartGroup){
+                        echo '</div>';
+                    }
+                    if ($letStartGroup) {
+                        ?>
+                        <h2><?= $service->getGroupTitle(); ?></h2>
+                        <?php
+                        echo '<div class="">';
+                    }
+                    if ($letInit) {
+                        $letInit = false;
+                    }
+
+                    $namePrefix = 'mphb_room_details[' . esc_attr( $roomIndex ) . '][services][' . esc_attr( $index ) . ']';
 					$idPrefix   = 'mphb_room_details-' . esc_attr( $roomIndex ) . '-service-' . $service->getOriginalId();
 
                     $service = apply_filters( '_mphb_translate_service', $service );

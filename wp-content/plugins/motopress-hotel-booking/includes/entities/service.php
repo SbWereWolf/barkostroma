@@ -50,8 +50,16 @@ class Service {
 	 * @var string
 	 */
 	protected $repeat;
+    /**
+     * @var string
+     */
+    private $groupTitle;
+    /**
+     * @var int
+     */
+    private $sortOrder;
 
-	/**
+    /**
 	 *
 	 * @param array $atts
 	 */
@@ -66,6 +74,9 @@ class Service {
         $this->isAutoLimit   = $atts['is_auto_limit'];
 		$this->repeat		 = $atts['repeat'];
 		$this->price		 = $atts['price'];
+
+        $this->groupTitle = (string)$atts['group_title'];
+        $this->sortOrder = (int)$atts['sort_order'];
 	}
 
 	/**
@@ -237,5 +248,21 @@ class Service {
 	public static function create( $atts ){
 		return new self( $atts );
 	}
+
+    /**
+     * @return int
+     */
+    public function getSortOrder(): int
+    {
+        return $this->sortOrder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupTitle(): string
+    {
+        return $this->groupTitle;
+    }
 
 }

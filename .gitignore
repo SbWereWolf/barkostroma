@@ -10,7 +10,7 @@
 wp-content/*
 !wp-content/mu-plugins/
 !wp-content/themes/
-/wp-content/themes/luviana/
+wp-content/themes/*
 !wp-content/plugins/
 wp-content/plugins/*
 !wp-content/plugins/motopress-hotel-booking/
@@ -28,6 +28,7 @@ node_modules/
 # ignore log files and databases
 *.log
 *.sql
+!wp-content/plugins/motopress-hotel-booking/additinal-group-reference.sql
 *.sqlite
 /wp-content/plugins/motopress-hotel-booking/vendors/
 /wp-content/plugins/motopress-hotel-booking/languages/

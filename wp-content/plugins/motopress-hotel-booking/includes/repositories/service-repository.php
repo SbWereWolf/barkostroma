@@ -2,12 +2,16 @@
 
 namespace MPHB\Repositories;
 
-use \MPHB\Entities;
-use \MPHB\Utils\ValidateUtils;
+use MPHB\Entities;
+use MPHB\Utils\ValidateUtils;
 
 class ServiceRepository extends AbstractPostRepository {
 
-	protected $type = 'service';
+    const SORT_ORDER = 'sort_order';
+    const DEFAULT_SERVICE = 'default';
+    const SERVICE_GROUP = 'mphb_service_group';
+    const GROUP_TITLE = 'title';
+    protected $type = 'service';
 
 	/**
 	 *
@@ -46,23 +50,45 @@ class ServiceRepository extends AbstractPostRepository {
         $isAutoLimit = get_post_meta($id, 'mphb_is_auto_limit', true);
         $isAutoLimit = ValidateUtils::validateBool($isAutoLimit);
 
-		$repeat = get_post_meta( $id, 'mphb_price_quantity', true );
-		if ( empty( $repeat ) ) {
-			$repeat = 'once';
-		}
+        $repeat = get_post_meta($id, 'mphb_price_quantity', true);
+        if (empty($repeat)) {
+            $repeat = 'once';
+        }
 
-		$atts = array(
-			'id'			 => $id,
-			'original_id'	 => MPHB()->translation()->getOriginalId( $id, MPHB()->postTypes()->service()->getPostType() ),
-			'title'			 => get_the_title( $id ),
-			'description'	 => get_post_field( 'post_content', $id ),
-			'price'			 => $price ? floatval( $price ) : 0.0,
-			'periodicity'	 => $periodicity,
-            'min_quantity'   => $minQuantity,
-            'max_quantity'   => $maxQuantity,
-            'is_auto_limit'  => $isAutoLimit,
-			'repeat'		 => $repeat
-		);
+        $group = get_post_meta($id, self::SERVICE_GROUP, true);
+        if (empty($group)) {
+            $group = self::DEFAULT_SERVICE;
+        }
+
+        global $wpdb;
+        $stmt = $wpdb->prepare('
+SELECT sort_order,title FROM mphb_additional_service_group WHERE code = %s limit 1',
+            array($group));
+        $fetched = $wpdb->get_row($stmt, ARRAY_A);
+
+        $sortOrder = PHP_INT_MIN + 1;
+        $groupTitle = 'Прочее';
+        if (!empty($fetched)
+            && is_array($fetched)
+            && key_exists(self::SORT_ORDER, $fetched)) {
+            $sortOrder = $fetched[self::SORT_ORDER];
+            $groupTitle = $fetched[self::GROUP_TITLE];
+        }
+
+        $atts = array(
+            'id' => $id,
+            'original_id' => MPHB()->translation()->getOriginalId($id, MPHB()->postTypes()->service()->getPostType()),
+            'title' => get_the_title($id),
+            'description' => get_post_field('post_content', $id),
+            'price' => $price ? floatval($price) : 0.0,
+            'periodicity' => $periodicity,
+            'min_quantity' => $minQuantity,
+            'max_quantity' => $maxQuantity,
+            'is_auto_limit' => $isAutoLimit,
+            'repeat' => $repeat,
+            'group_title' => $groupTitle,
+            'sort_order' => $sortOrder,
+        );
 
 		return Entities\Service::create( $atts );
 	}
