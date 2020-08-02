@@ -64,7 +64,12 @@ class ServiceRepository extends AbstractPostRepository {
         $stmt = $wpdb->prepare('
 SELECT sort_order,title FROM mphb_additional_service_group WHERE code = %s limit 1',
             array($group));
-        $fetched = $wpdb->get_row($stmt, ARRAY_A);
+        try{
+            $fetched = $wpdb->get_row($stmt, ARRAY_A);
+        }catch (\Throwable $e){
+            error_log($e->getMessage());
+            $fetched = [];
+        }
 
         $sortOrder = PHP_INT_MIN + 1;
         $groupTitle = 'Прочее';

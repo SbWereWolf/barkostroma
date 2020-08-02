@@ -331,6 +331,76 @@ class CheckoutView {
                 $previousGroup = PHP_INT_MIN;
                 $letInit = true;
                 ?>
+                <style>
+                    /* Style the button that is used to open and close the collapsible content */
+                    .collapsible2 {
+                        background-color: #eee;
+                        color: #444;
+                        cursor: pointer;
+                        padding: 18px;
+                        width: 100%;
+                        border: none;
+                        text-align: left;
+                        outline: none;
+                        font-size: 15px;
+                    }
+
+                    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+                    .active, .collapsible2:hover {
+                        background-color: #ccc;
+                    }
+
+                    .collapsible2:after {
+                        content: '\02795'; /* Unicode character for "plus" sign (+) */
+                        font-size: 13px;
+                        color: white;
+                        float: right;
+                        margin-left: 5px;
+                    }
+
+                    .active:after {
+                        content: "\2796"; /* Unicode character for "minus" sign (-) */
+                    }
+
+                    .content3 {
+                        padding: 0 18px;
+                        background-color: white;
+                        max-height: 0;
+                        overflow: hidden;
+                        transition: max-height 0.2s ease-out;
+                    }
+                </style>
+                <script>
+                    function docReady(fn) {
+                        if (document.readyState === "complete"
+                            || document.readyState === "interactive") {
+                            setTimeout(fn, 100);
+                        } else {
+                            document.addEventListener(
+                                "DOMContentLoaded", fn);
+                        }
+                    }
+
+                    docReady(function () {
+                        const coll = document
+                            .getElementsByClassName("collapsible2");
+                        let i;
+
+                        for (i = 0; i < coll.length; i++) {
+                            coll[i].addEventListener("click",
+                                function () {
+                                    this.classList.toggle("active");
+                                    var content = this.nextElementSibling;
+                                    if (content.style.maxHeight) {
+                                        content.style.maxHeight = null;
+                                    } else {
+                                        content.style.maxHeight =
+                                            content.scrollHeight + "px";
+                                    }
+                                });
+                        }
+                    });
+                </script>
                 <?php foreach ($services as $index => $service) { ?>
                     <?php
                     /* @var \MPHB\Entities\Service $service */
@@ -342,9 +412,9 @@ class CheckoutView {
                     }
                     if ($letStartGroup) {
                         ?>
-                        <h2><?= $service->getGroupTitle(); ?></h2>
+                        <h2 class="collapsible2"><?= $service->getGroupTitle(); ?></h2>
                         <?php
-                        echo '<div class="">';
+                        echo '<div class="content3">';
                     }
                     if ($letInit) {
                         $letInit = false;
