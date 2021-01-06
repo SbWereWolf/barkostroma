@@ -8,28 +8,33 @@ create table log
 
 create table mphb_additional_service_group
 (
-	id bigint auto_increment,
-	code varchar(50) not null comment 'Код для группы услуг',
-	sort_order bigint null comment 'Порядок сортировки',
-	title varchar(100) not null comment 'Имя группы',
-	remark text null comment 'Описание группы дополнительных услуг',
-	inserted_at datetime default now() null comment 'Добавлено',
-	constraint mphb_additional_service_group_pk
-		primary key (id)
+    id          bigint auto_increment,
+    code        varchar(50)            not null
+        comment 'Код для группы услуг',
+    sort_order  bigint                 null
+        comment 'Порядок сортировки',
+    title       varchar(100)           not null comment 'Имя группы',
+    remark      text                   null
+        comment 'Описание группы дополнительных услуг',
+    inserted_at datetime default now() null comment 'Добавлено',
+    constraint mphb_additional_service_group_pk
+        primary key (id)
 );
 
 create unique index mphb_additional_service_group_code_uindex
-	on mphb_additional_service_group (code);
+    on mphb_additional_service_group (code);
 
 create unique index mphb_additional_service_group_sort_order_uindex
-	on mphb_additional_service_group (sort_order);
+    on mphb_additional_service_group (sort_order);
 
 INSERT INTO mphb_additional_service_group
-(code, sort_order, title, remark)
-VALUES ('default', -1, 'Прочие', 'Группа по умолчанию, системная, изменять только если вы реально понимаете что и зачем вы делаете');
+    (code, sort_order, title, remark)
+VALUES ('default', -1, 'Прочие',
+        'Группа по умолчанию, системная, изменять только если вы'
+            || ' реально понимаете что и зачем вы делаете');
 
 DELIMITER $$
-DROP FUNCTION IF EXISTS define_group;
+DROP FUNCTION IF EXISTS define_group$$
 
 CREATE FUNCTION define_group(a_post_id bigint,
                              new_group_code varchar(50))
@@ -46,15 +51,18 @@ BEGIN
 
     delete from log where true;
 
+    set new_group_code = CONVERT(new_group_code USING utf8mb4);
+
     select null
     into dummy
     from mphb_additional_service_group
-    where code COLLATE utf8mb4_general_ci = new_group_code COLLATE utf8mb4_general_ci
+    where CONVERT(code USING utf8mb4) COLLATE utf8mb4_general_ci
+              = new_group_code COLLATE utf8mb4_general_ci
     limit 1;
     SELECT FOUND_ROWS() into record_exists;
     insert into log (message) values (record_exists);
 
-    if(record_exists)
+    if (record_exists)
     then
         select null
         into dummy
@@ -71,12 +79,16 @@ BEGIN
         into group_code
         from wppv_postmeta
         where post_id = a_post_id
-          and meta_key COLLATE utf8mb4_general_ci = meta_code COLLATE utf8mb4_general_ci
+          and CONVERT(meta_key USING utf8mb4)
+                  COLLATE utf8mb4_general_ci =
+              CONVERT(meta_code USING utf8mb4)
+                  COLLATE utf8mb4_general_ci
         limit 1;
         SELECT FOUND_ROWS() into group_exists;
     end if;
     insert into log (message) values (group_exists);
-    insert into log (message) values (concat('find group with name ', group_code));
+    insert into log (message)
+    values (concat('find group with name ', group_code));
 
     if (group_exists = 1 and group_code <> new_group_code)
     then
@@ -84,7 +96,10 @@ BEGIN
         update wppv_postmeta
         set meta_value = new_group_code
         where post_id = a_post_id
-          and meta_key COLLATE utf8mb4_general_ci = meta_code COLLATE utf8mb4_general_ci;
+          and CONVERT(meta_key USING utf8mb4)
+                  COLLATE utf8mb4_general_ci =
+              CONVERT(meta_code USING utf8mb4)
+                  COLLATE utf8mb4_general_ci;
         SELECT ROW_COUNT() into affected_rows;
         insert into log (message) values ('after update');
     end if;
